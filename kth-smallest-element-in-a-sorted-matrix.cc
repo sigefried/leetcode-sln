@@ -37,3 +37,40 @@ public:
         return l;
     }
 };
+
+// pq
+class record {
+public:
+    int x;
+    int y;
+    int val;
+    record(int x, int y, int val) : x(x), y(y), val(val) {
+        
+    }
+};
+
+class Solution {
+public:
+    int kthSmallest(vector<vector<int>>& matrix, int k) {
+        int m = matrix.size();
+        if(m == 0) return 0;
+        int n = matrix[0].size();
+        if(n == 0) return 0;
+        
+        auto cmp = [](record &a, record &b) {
+            return a.val > b.val;
+        };
+        priority_queue<record, vector<record>, decltype(cmp) > pq(cmp);
+        for(int j = 0; j < n; ++j) {
+            pq.push(record(0,j,matrix[0][j]));
+        }
+        for(int i = 0; i < k-1; ++i) {
+            record cur = pq.top();
+            pq.pop();
+            if(cur.x == m - 1) continue;
+            pq.push(record(cur.x + 1, cur.y, matrix[cur.x + 1][cur.y]));
+        }
+        
+        return pq.top().val;
+    }
+};
