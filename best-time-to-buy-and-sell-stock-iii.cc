@@ -1,4 +1,4 @@
-class Solution {
+hclass Solution {
 public:
     int maxProfit(vector<int>& prices) {
         int end1, end2;
