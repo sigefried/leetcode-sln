@@ -66,3 +66,52 @@ public:
         return num.top();
     }
 };
+
+//
+
+class Solution {
+public:
+    
+    int calculate(string s) {
+        stack<int> num;
+        int cur = 0;
+        char sign = '+';
+        s += "#";
+        for(int i = 0; i < s.size();) {
+            if(s[i] == ' ') {
+                ++i;
+                continue;
+            }
+            if(isdigit(s[i])) {
+                cur = 0;
+                while(i < s.size() && isdigit(s[i])) {
+                    cur = 10 * cur + (s[i] - '0');
+                    i++;
+                }
+                
+            } else {
+                if(sign == '+') {
+                    num.push(cur);
+                } else if(sign == '-') {
+                    num.push(-cur);
+                } else if (sign == '*'){
+                    int t = num.top(); num.pop();
+                    num.push(t * cur);
+                } else if(sign == '/') {
+                    int t = num.top(); num.pop();
+                    num.push(t / cur);   
+                }
+                
+                sign = s[i];
+                ++i;
+            }
+        }
+        int ret = 0;
+        while(num.size()) {
+            ret += num.top();
+            num.pop();
+        }
+
+        return ret;
+    }
+};
